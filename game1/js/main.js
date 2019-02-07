@@ -25,17 +25,17 @@ var config = {
     {
         //this.load.image('sky', 'http://labs.phaser.io/assets/skies/space3.png');
 		//this.load.image('test', '../assets/red.png');
-		this.load.image('tiles', '../assets/tiles.png');
-		this.load.tilemapTiledJSON('map', '../assets/map.json');
+		this.load.image('tiles', 'assets/tiles.png');
+		this.load.tilemapTiledJSON('map', 'assets/map.json');
 		
 		//https://opengameart.org/content/game-character sprite sheet location
-		this.load.spritesheet('actor', '../assets/BlobCharacter/Spritesheet/character_walk.png', {frameWidth: 56, frameHeight: 59});
+		this.load.spritesheet('actor', 'assets/BlobCharacter/Spritesheet/character_walk.png', {frameWidth: 56, frameHeight: 59});
 		
 		//http://soundbible.com/1949-Pew-Pew.html
-		this.load.audio('pew', '../assets/pew.wav');
+		this.load.audio('pew', 'assets/pew.wav');
 		
 		//http://soundbible.com/1469-Depth-Charge-Short.html
-		this.load.audio('boom', '../assets/boom.wav');
+		this.load.audio('boom', 'assets/boom.wav');
     }
 
     function create ()
