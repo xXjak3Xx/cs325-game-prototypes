@@ -47,7 +47,7 @@ var config = {
 		this.physics.add.collider(player1, level);				
 		this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
 		player1.setCollideWorldBounds(true);
-		player1.setData({name: "player 1", hp: 300, attack: 25, gold: 40, kills: 0, ready: true});
+		player1.setData({name: "player 1", hp: 500, attack: 25, gold: 40, kills: 0, ready: true});
 		player1.setDisplaySize(50, 50); 
 		
 		
@@ -55,7 +55,7 @@ var config = {
 		this.physics.add.collider(player2, level);
 				
 		player2.setCollideWorldBounds(true);
-		player2.setData({name: "player 2", hp: 300, attack: 25, gold: 40, kills: 0});
+		player2.setData({name: "player 2", hp: 500, attack: 25, gold: 40, kills: 0});
 		player2.setDisplaySize(50, 50);
 		
 		
