@@ -38,13 +38,13 @@ var config = {
 		level = map.createStaticLayer('Tile Layer 1', tileset, 0, 0);
 		level.setCollisionByProperty({collision: true});
 		
-		gold_gen = 2;
+		gold_gen = 1;
 		
 		player1 = this.physics.add.sprite(100, 470, 'soldier');
 		this.physics.add.collider(player1, level);				
 		this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
 		player1.setCollideWorldBounds(true);
-		player1.setData({name: "player 1", hp: 100, attack: 25, gold: 50, kills: 0, ready: true});
+		player1.setData({name: "player 1", hp: 250, attack: 25, gold: 30, kills: 0, ready: true});
 		player1.setDisplaySize(50, 50); 
 		
 		
@@ -52,7 +52,7 @@ var config = {
 		this.physics.add.collider(player2, level);
 				
 		player2.setCollideWorldBounds(true);
-		player2.setData({name: "player 2", hp: 100, attack: 25, gold: 50, kills: 0});
+		player2.setData({name: "player 2", hp: 250, attack: 25, gold: 30, kills: 0});
 		player2.setDisplaySize(50, 50);
 		
 		
@@ -82,6 +82,24 @@ var config = {
 			delay: 1000,
 			callback: passive_gold,
 			loop:true
+		});
+		
+		gst = true;
+		bst = true;
+		good_spawn_timer = this.time.addEvent({
+			delay: 1000,
+			callback: reset_spawn_timer,
+			args:[true],
+			loop:true,
+			paused:true
+		});
+		
+		bad_spawn_timer = this.time.addEvent({
+			delay: 1000,
+			callback: reset_spawn_timer,
+			args:[false],
+			loop:true,
+			paused:true
 		});
 		
 		
@@ -176,6 +194,17 @@ var config = {
 		});
     }
 	
+	function reset_spawn_timer(isGood){
+		if(isGood){
+			good_spawn_timer.paused = true;
+			gst = true;
+		}
+		else{
+			bad_spawn_timer.paused = true;
+			bst = true;
+		}
+	}
+	
 	function passive_gold(){
 		player1.data.values.gold += gold_gen;
 		player2.data.values.gold += gold_gen;
@@ -188,14 +217,14 @@ var config = {
 	}
 
 // hp, att, spd	
-var goodBlobs = [[50, 20, 40], //soldier
-				 [40, 15, 45], //ranged
-				 [40, 10, 80]]; //theif
+var goodBlobs = [[100, 1, 40], //soldier
+				 [30, 3, 45], //ranged
+				 [50, 2, 120]]; //theif
 	
 // hp, att, spd	
-var badBlobs = [[50, 20, 40], //soldier
-				 [40, 15, 45], //ranged
-				 [40, 10, 80]]; //theif
+var badBlobs = [[100, 1, 40], //soldier
+				 [30, 3, 45], //ranged
+				 [50, 2, 120]]; //theif
 	
     function update() {
         evil_cursors = this.input.keyboard.createCursorKeys();
@@ -208,25 +237,34 @@ var badBlobs = [[50, 20, 40], //soldier
 	function fight(){
 		let good_kids = friendGroup.getChildren();
 		let bad_kids = enemyGroup.getChildren();
-		console.log(friendGroup.getFirst());
+		//console.log(good_kids);
 		
 		for(let i = 0; i < good_kids.length; i++){
 			if(good_kids[i].data.values.name === "soldier" || good_kids[i].data.values.name === "theif"){
-				if(Math.abs(player2.body.x - good_kids[i].body.x) <= 45)
+				if(Math.abs(player2.body.x - good_kids[i].body.x) <= 45){
+					//console.log(bad_kids[0].data.values.name + " " + i);
 					attack(good_kids[i], player2);
-				else if(enemyGroup.getFirst() === null)
+				}
+				else if(bad_kids[0] == null)
 					return;
-				else if(Math.abs(enemyGroup.getFirst().body.x - good_kids.body.x) <= 45)
-					attack(good_kids[i], enemyGroup.getFirst());
+				else if(Math.abs(bad_kids[0].body.x - good_kids[i].body.x) <= 45)
+					attack(good_kids[i], bad_kids[0]);
+				else
+					good_kids[i].setVelocityX(good_kids[i].data.values.speed);
 			}
 			else if(good_kids[i].data.values.name === "ranged"){
 				if(Math.abs(player2.body.x - good_kids[i].body.x) <= 90)
 					attack(good_kids[i], player2);
-				else if(enemyGroup.getFirst() === null)
+				else if(bad_kids[0] == null)
 					return;
-				else if(Math.abs(enemyGroup.getFirst().body.x - good_kids.body.x) <= 90)
-					attack(good_kids[i], enemyGroup.getFirst());
+				else if(Math.abs(bad_kids[0].body.x - good_kids[i].body.x) <= 90)
+					attack(good_kids[i], bad_kids[0]);
+				else
+					good_kids[i].setVelocityX(good_kids[i].data.values.speed);
 			}
+			
+			/*if(good_kids[i] != null)
+				good_kids[i].setVelocityX(good_kids[i].data.values.speed);*/
 		}
 		
 		
@@ -234,26 +272,33 @@ var badBlobs = [[50, 20, 40], //soldier
 			if(bad_kids[i].data.values.name === "evil_soldier" || bad_kids[i].data.values.name === "evil_theif"){
 				if(Math.abs(player1.body.x - bad_kids[i].body.x) <= 45)
 					attack(bad_kids[i], player1);
-				else if(friendGroup.getFirst() === null){
+				else if(good_kids[0] == null){
 					console.log('in there');
 					return;
 				}
-				else if(Math.abs(friendGroup.getFirst().body.x - bad_kids.body.x) <= 45)
-					attack(bad_kids[i], friendGroup.getFirst());
+				else if(Math.abs(good_kids[0].body.x - bad_kids[i].body.x) <= 40)
+					attack(bad_kids[i], good_kids[0]);
+				else
+					bad_kids[i].setVelocityX(bad_kids[i].data.values.speed);
 			}
 			else if(bad_kids[i].data.values.name === "ranged"){
 				if(Math.abs(player1.body.x - bad_kids[i].body.x) <= 90)
 					attack(bad_kids[i], player1);
-				else if(friendGroup.getFirst() === null)
+				else if(good_kids[0] === null)
 					return;
-				else if(Math.abs(friendGroup.getFirst().body.x - bad_kids.body.x) <= 90)
-					attack(bad_kids[i], friendGroup.getFirst());
+				else if(Math.abs(good_kids[0].body.x - bad_kids[i].body.x) <= 90)
+					attack(bad_kids[i], good_kids[0]);
+				else
+					bad_kids[i].setVelocityX(bad_kids[i].data.values.speed);
 			}
+			
+			/*if(bad_kids[i] != null)
+				bad_kids[i].setVelocityX(bad_kids[i].data.values.speed);*/
 		}
 	}
 	
 	function attack(attacker, attackee){
-		console.log('fight');
+		//console.log('fight');
 		attackee.data.values.hp -= attacker.data.values.attack;
 		if(attackee.data.values.hp <= 0){
 			if(attackee === player1 || attackee === player2){
@@ -266,6 +311,7 @@ var badBlobs = [[50, 20, 40], //soldier
 			else{
 				friendGroup.remove(attackee, true, true);
 				enemyGroup.remove(attackee, true, true);
+				console.log('ded');
 			}
 		}
 		else{
@@ -285,16 +331,20 @@ var badBlobs = [[50, 20, 40], //soldier
 			price = 20;
 		
 		if(isGood){
-			if(player1.data.values.gold < price)
+			if(player1.data.values.gold < price || !gst)
 				return;
 			
 			player1.data.values.gold -= price;
+			gst = false;
+			good_spawn_timer.paused = false;
 		}
 		else{
-			if(player2.data.values.gold < price)
+			if(player2.data.values.gold < price || !bst)
 				return;
 			
 			player2.data.values.gold -= price;
+			bst = false;
+			bad_spawn_timer.paused = false;
 		}
 		update_text();
 		spawnBlob(isGood, type);
@@ -352,7 +402,7 @@ var badBlobs = [[50, 20, 40], //soldier
 		else
 			name = "theif";*/
 		
-		minion.setData({name: name, hp: faction[type][0], attack: faction[type][1], ready: true});
+		minion.setData({name: name, hp: faction[type][0], attack: faction[type][1], ready: true, speed: faction[type][2] * multiplier});
 	}
 	
 var reset = true;
