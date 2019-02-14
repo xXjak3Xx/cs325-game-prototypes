@@ -44,7 +44,7 @@ var config = {
 		this.physics.add.collider(player1, level);				
 		this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
 		player1.setCollideWorldBounds(true);
-		player1.setData({name: "player 1", hp: 250, attack: 25, gold: 30, kills: 0, ready: true});
+		player1.setData({name: "player 1", hp: 300, attack: 25, gold: 40, kills: 0, ready: true});
 		player1.setDisplaySize(50, 50); 
 		
 		
@@ -52,13 +52,13 @@ var config = {
 		this.physics.add.collider(player2, level);
 				
 		player2.setCollideWorldBounds(true);
-		player2.setData({name: "player 2", hp: 250, attack: 25, gold: 30, kills: 0});
+		player2.setData({name: "player 2", hp: 300, attack: 25, gold: 40, kills: 0});
 		player2.setDisplaySize(50, 50);
 		
 		
 		good_gold = this.add.text(100, 100, player1.data.values.gold + "g \nkills: " + player1.data.values.kills + "\nHP: " + player1.data.values.hp);
 		evil_gold = this.add.text(700, 100, player2.data.values.gold + "g \nkills: " + player2.data.values.kills + "\nHP: " + player2.data.values.hp);
-		game_over = this.add.text(200, 240, '', { fontSize: '32px', fill: '#fff' });
+		game_over = this.add.text(150, 240, '', { fontSize: '32px', fill: '#fff' });
 		
 		
 		enemyGroup = this.physics.add.group();
@@ -77,6 +77,23 @@ var config = {
 		this.physics.add.collider(player1, enemyGroup);
 		this.physics.add.collider(player2, friendGroup);
 		
+		p1st = true;
+		p2st = true;
+		p1_shot = this.time.addEvent({
+			delay: 1000,
+			callback: reset_shot,
+			args:[true],
+			loop:[true],
+			paused:true
+		});
+		
+		p2_shot = this.time.addEvent({
+			delay:1000,
+			callback: reset_shot,
+			args:[false],
+			loop:[true],
+			paused:true
+		});
 		
 		timer = this.time.addEvent({
 			delay: 1000,
@@ -194,6 +211,17 @@ var config = {
 		});
     }
 	
+	function reset_shot(isGood){
+		if(isGood){
+			p1_shot.paused = true;
+			p1st = true;
+		}
+		else{
+			p2_shot.paused = true;
+			p2st = true;
+		}
+	}
+	
 	function reset_spawn_timer(isGood){
 		if(isGood){
 			good_spawn_timer.paused = true;
@@ -217,14 +245,14 @@ var config = {
 	}
 
 // hp, att, spd	
-var goodBlobs = [[100, 1, 40], //soldier
-				 [30, 3, 45], //ranged
-				 [50, 2, 120]]; //theif
+var goodBlobs = [[150, 1, 40], //soldier
+				 [30, 2, 45], //ranged
+				 [75, 3, 120]]; //theif
 	
 // hp, att, spd	
-var badBlobs = [[100, 1, 40], //soldier
-				 [30, 3, 45], //ranged
-				 [50, 2, 120]]; //theif
+var badBlobs = [[160, 1, 40], //soldier
+				 [30, 2, 45], //ranged
+				 [75, 3, 120]]; //theif
 	
     function update() {
         evil_cursors = this.input.keyboard.createCursorKeys();
@@ -245,8 +273,10 @@ var badBlobs = [[100, 1, 40], //soldier
 					//console.log(bad_kids[0].data.values.name + " " + i);
 					attack(good_kids[i], player2);
 				}
-				else if(bad_kids[0] == null)
-					return;
+				else if(bad_kids[0] == null){
+					good_kids[i].setVelocityX(good_kids[i].data.values.speed);
+					//break;
+				}
 				else if(Math.abs(bad_kids[0].body.x - good_kids[i].body.x) <= 45)
 					attack(good_kids[i], bad_kids[0]);
 				else
@@ -255,8 +285,10 @@ var badBlobs = [[100, 1, 40], //soldier
 			else if(good_kids[i].data.values.name === "ranged"){
 				if(Math.abs(player2.body.x - good_kids[i].body.x) <= 90)
 					attack(good_kids[i], player2);
-				else if(bad_kids[0] == null)
-					return;
+				else if(bad_kids[0] == null){
+					good_kids[i].setVelocityX(good_kids[i].data.values.speed);
+					//break;
+				}
 				else if(Math.abs(bad_kids[0].body.x - good_kids[i].body.x) <= 90)
 					attack(good_kids[i], bad_kids[0]);
 				else
@@ -270,22 +302,25 @@ var badBlobs = [[100, 1, 40], //soldier
 		
 		for(let i = 0; i < bad_kids.length; i++){
 			if(bad_kids[i].data.values.name === "evil_soldier" || bad_kids[i].data.values.name === "evil_theif"){
-				if(Math.abs(player1.body.x - bad_kids[i].body.x) <= 45)
+				if(Math.abs(player1.body.x - bad_kids[i].body.x) <= 50)
 					attack(bad_kids[i], player1);
 				else if(good_kids[0] == null){
-					console.log('in there');
-					return;
+					bad_kids[i].setVelocityX(bad_kids[i].data.values.speed);
+					//break;
 				}
-				else if(Math.abs(good_kids[0].body.x - bad_kids[i].body.x) <= 40)
+				else if(Math.abs(good_kids[0].body.x - bad_kids[i].body.x) <= 45)
 					attack(bad_kids[i], good_kids[0]);
 				else
 					bad_kids[i].setVelocityX(bad_kids[i].data.values.speed);
 			}
-			else if(bad_kids[i].data.values.name === "ranged"){
+			else if(bad_kids[i].data.values.name === "evil_ranged"){
 				if(Math.abs(player1.body.x - bad_kids[i].body.x) <= 90)
 					attack(bad_kids[i], player1);
-				else if(good_kids[0] === null)
-					return;
+				else if(good_kids[0] == null)
+				{
+					bad_kids[i].setVelocityX(bad_kids[i].data.values.speed);
+					//break;
+				}
 				else if(Math.abs(good_kids[0].body.x - bad_kids[i].body.x) <= 90)
 					attack(bad_kids[i], good_kids[0]);
 				else
