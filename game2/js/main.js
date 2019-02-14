@@ -29,6 +29,8 @@ var config = {
 		this.load.spritesheet('evil_soldier', 'assets/BlobCharacter/Spritesheet/evil_walk.png', {frameWidth: 56, frameHeight: 59});
 		this.load.spritesheet('evil_ranged', 'assets/BlobCharacter/Spritesheet/evil_robo.png', {frameWidth: 56, frameHeight: 59});
 		this.load.spritesheet('evil_theif', 'assets/BlobCharacter/Spritesheet/evil_ninja.png', {frameWidth: 56, frameHeight: 59});
+		this.load.audio('boom', 'assets/boom.wav');
+		this.load.spritesheet('bullet', 'assets/bullet.png', {frameWidth: 14, frameHeight: 10});
     }
     
     
@@ -38,6 +40,7 @@ var config = {
 		level = map.createStaticLayer('Tile Layer 1', tileset, 0, 0);
 		level.setCollisionByProperty({collision: true});
 		
+		boom = this.sound.add('boom');
 		gold_gen = 1;
 		
 		player1 = this.physics.add.sprite(100, 470, 'soldier');
@@ -60,6 +63,7 @@ var config = {
 		evil_gold = this.add.text(700, 100, player2.data.values.gold + "g \nkills: " + player2.data.values.kills + "\nHP: " + player2.data.values.hp);
 		game_over = this.add.text(150, 240, '', { fontSize: '32px', fill: '#fff' });
 		
+		bg = this.physics.add.group();
 		
 		enemyGroup = this.physics.add.group();
 		enemyGroup.enableBody = true;
@@ -79,16 +83,16 @@ var config = {
 		
 		p1st = true;
 		p2st = true;
-		p1_shot = this.time.addEvent({
-			delay: 1000,
+		p1_sht = this.time.addEvent({
+			delay: 2000,
 			callback: reset_shot,
 			args:[true],
 			loop:[true],
 			paused:true
 		});
 		
-		p2_shot = this.time.addEvent({
-			delay:1000,
+		p2_sht = this.time.addEvent({
+			delay:2000,
 			callback: reset_shot,
 			args:[false],
 			loop:[true],
@@ -210,6 +214,90 @@ var config = {
     		repeat: -1
 		});
     }
+		
+	function p1_shot(){
+		if(p1st){
+		let bad_kids = enemyGroup.getChildren();
+		bullet = bg.create(player1.body.x, 460, 'bullet');
+		bullet.setVelocityX(400);
+		p1_sht.paused = false;
+		bullet.setGravity(0, -400);
+		bullet.setData({isGood: true});
+		bullet.flipX = true;
+		p1st = false;
+		
+	}}
+	
+	function bupdate(){
+		let bad_kids = enemyGroup.getChildren();
+		let good_kids = friendGroup.getChildren();
+		let bullets = bg.getChildren();
+		let inc;
+		
+		for(let i = 0; i < bullets.length; i++){
+			if(bullets[i].data.values.isGood){
+				if(Math.abs(bullets[i].body.x - player2.body.x) <= 15){
+					bg.remove(bullets[i], true, true);
+			attack(player1, player2);
+		}
+		
+		for(let j = 0; j < bad_kids.length; j++){
+			if(Math.abs(bullets[i].body.x - bad_kids[j].body.x) <= 15){
+				inc = attack(player1, bad_kids[j]);
+				bg.remove(bullets[i], true, true);
+				break;
+			}
+		}
+		
+		if(inc){
+			increment(player1);
+			player1.data.values.gold += 8;
+		}
+		
+			}
+			else{
+				if(Math.abs(bullets[i].body.x - player1.body.x) <= 15){
+					bg.remove(bullets[i], true, true);
+			attack(player2, player1);
+		}
+		
+		for(let j = 0; j < good_kids.length; j++){
+			if(Math.abs(bullets[i].body.x - good_kids[j].body.x) <= 15){
+				bg.remove(bullets[i], true, true);
+				inc = attack(player2, good_kids[j]);
+				break;
+			}
+		}
+		
+		if(inc){
+			increment(player2);
+				player2.data.values.gold += 8;
+		}
+			}
+		}
+	}
+	
+	function p2_shot(){
+		if(p2st){
+		let good_kids = friendGroup.getChildren();
+		let inc;
+		bullet = bg.create(player2.body.x, 460, 'bullet');
+		bullet.setVelocityX(-400);
+		p2_sht.paused = false;
+		bullet.setGravity(0, -400);
+		bullet.setData({isGood: false});
+		
+		
+			
+		p2st = false;
+	}}
+	
+	function increment(player){
+		player.data.values.kills++;
+		if(player.data.values.kills % 5 == 0)
+			player.data.values.attack *= 2;
+		update_text();
+	}
 	
 	function reset_shot(isGood){
 		if(isGood){
@@ -259,6 +347,7 @@ var badBlobs = [[160, 1, 40], //soldier
 		cursors = this.input.keyboard.addKeys({left:"A",right:"D",up:"W",down:"S",sold:"ONE",ranged:"TWO",theif:"THREE",evil_sold:"OPEN_BRACKET",evil_ranged:"CLOSED_BRACKET",evil_theif:"BACK_SLASH"});
 		input();
 		fight();
+		bupdate();
     }
 	
 	
@@ -339,6 +428,7 @@ var badBlobs = [[160, 1, 40], //soldier
 			if(attackee === player1 || attackee === player2){
 				update_text();
 				game_over.setText("Game over. " + attackee.data.values.name + " loses.");
+				boom.play();
 				attackee.destroy();
 				friendGroup.destroy(true);
 				enemyGroup.destroy(true);
@@ -348,10 +438,12 @@ var badBlobs = [[160, 1, 40], //soldier
 				enemyGroup.remove(attackee, true, true);
 				console.log('ded');
 			}
+			return true;
 		}
 		else{
 			if(attackee === player1 || attackee === player2)
 				update_text();
+			return false;
 		}
 	}
 	
@@ -472,6 +564,13 @@ var reset2 = true;
 			player2.setVelocityX(0);
 			player2.anims.play('evil-still-sold', true);
 		}
+		
+		
+		if(cursors.up.isDown)
+			p1_shot();
+		
+		if(evil_cursors.up.isDown)
+			p2_shot();
 		
 		
 		
