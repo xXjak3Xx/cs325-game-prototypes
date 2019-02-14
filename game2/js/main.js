@@ -235,14 +235,14 @@ var config = {
 		let inc;
 		
 		for(let i = 0; i < bullets.length; i++){
-			if(bullets[i].data.values.isGood){
-				if(Math.abs(bullets[i].body.x - player2.body.x) <= 15){
+			if(bullets[i] != null && bullets[i].data.values.isGood){
+				if(bullets[i] != null && Math.abs(bullets[i].body.x - player2.body.x) <= 15){
 					bg.remove(bullets[i], true, true);
 			attack(player1, player2);
 		}
 		
 		for(let j = 0; j < bad_kids.length; j++){
-			if(Math.abs(bullets[i].body.x - bad_kids[j].body.x) <= 15){
+			if(bullets[i] != null && Math.abs(bullets[i].body.x - bad_kids[j].body.x) <= 15){
 				inc = attack(player1, bad_kids[j]);
 				bg.remove(bullets[i], true, true);
 				break;
@@ -256,13 +256,13 @@ var config = {
 		
 			}
 			else{
-				if(Math.abs(bullets[i].body.x - player1.body.x) <= 15){
+				if(bullets[i] != null && Math.abs(bullets[i].body.x - player1.body.x) <= 15){
 					bg.remove(bullets[i], true, true);
 			attack(player2, player1);
 		}
 		
 		for(let j = 0; j < good_kids.length; j++){
-			if(Math.abs(bullets[i].body.x - good_kids[j].body.x) <= 15){
+			if(bullets[i] != null && Math.abs(bullets[i].body.x - good_kids[j].body.x) <= 15){
 				bg.remove(bullets[i], true, true);
 				inc = attack(player2, good_kids[j]);
 				break;
