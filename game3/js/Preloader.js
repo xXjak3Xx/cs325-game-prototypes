@@ -30,6 +30,10 @@ BasicGame.Preloader.prototype = {
 		this.load.audio('titleMusic', ['assets/Poppers and Prosecco.mp3']);
 		//	+ lots of other required assets here
         this.load.image( 'logo', 'assets/phaser.png' );
+		
+		this.load.image('tiles', 'assets/tiles.png');
+		this.load.tilemap('map', 'assets/map.json', null, Phaser.Tilemap.TILED_JSON);
+		this.load.spritesheet('player', 'assets/MainAngelWalking.png', {frameWidth: 256, frameHeight: 256});
 	},
 
 	create: function () {

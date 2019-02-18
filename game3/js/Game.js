@@ -1,4 +1,4 @@
-"use strict";
+//"use strict";
 
 BasicGame.Game = function (game) {
 
@@ -33,7 +33,7 @@ BasicGame.Game = function (game) {
 BasicGame.Game.prototype = {
 
     create: function () {
-
+	/*
         //  Honestly, just about anything could go here. It's YOUR game after all. Eat your heart out!
         
         // Create a sprite at the center of the screen using the 'logo' image.
@@ -55,7 +55,17 @@ BasicGame.Game.prototype = {
         
         // When you click on the sprite, you go back to the MainMenu.
         this.bouncy.inputEnabled = true;
-        this.bouncy.events.onInputDown.add( function() { this.quitGame(); }, this );
+        this.bouncy.events.onInputDown.add( function() { this.quitGame(); }, this );*/
+		
+		var map = this.add.tilemap('map');
+		var tileset = map.addTilesetImage('tileset', 'tiles');
+		var level = map.createLayer('jake');
+		//map.setCollisionBetween(1, 999, true, 'jake');
+		
+		var player = this.add.sprite(100, 470, 'player');
+		//this.add.collider(player, level);				
+		//this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
+		//player.setCollideWorldBounds(true);
     },
 
     update: function () {
@@ -67,7 +77,7 @@ BasicGame.Game.prototype = {
         // in X or Y.
         // This function returns the rotation angle that makes it visually match its
         // new trajectory.
-        this.bouncy.rotation = this.game.physics.arcade.accelerateToPointer( this.bouncy, this.game.input.activePointer, 500, 500, 500 );
+        //this.bouncy.rotation = this.game.physics.arcade.accelerateToPointer( this.bouncy, this.game.input.activePointer, 500, 500, 500 );
     },
 
     quitGame: function () {
