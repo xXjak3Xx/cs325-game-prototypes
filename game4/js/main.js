@@ -50,20 +50,24 @@ var config = {
     function create ()
     {	
 		map = this.make.tilemap({key: 'map', tileWidth: 40, tileHeight: 40});
-		tileset = map.addTilesetImage('tileset2', 'tiles');
+		tileset = map.addTilesetImage('FullSet', 'tiles');
 		level = map.createStaticLayer('Tile Layer 1', tileset, 0, 0);
 		level2 = map.createStaticLayer('Tile Layer 2', tileset, 0, 0);
 		level.setCollisionByProperty({collision: true});
 		level2.setCollisionByProperty({death: true});
 		
+		this.matter.world.convertTilemapLayer(level);
+		this.matter.world.convertTilemapLayer(level2);
 		
-		player = this.matter.add.sprite(500, 560, 'actor');
+		
+		player = this.matter.add.sprite(500, 560, 'actor', '1f62c',{shape: 'circle'});
+		gravSwitch = this.matter.world;
 		//player.body.maxVelocity.set(300);
 		
 		//this.matter.add.collider(player, level);
 		//this.matter.add.collider(player, level2);
-		this.matterCollision.addOnCollide({objectA: player, objectB: level});
-		this.matterCollision.addOnCollide({objectA: player, objectB: level2});
+		//this.matterCollision.addOnCollideStart({objectA: player, callback: () => {console.log("work")}});
+		//this.matterCollision.addOnCollideStart({objectA: player, objectB: test, callback: death});
 		
 		
 		this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
@@ -74,11 +78,11 @@ var config = {
 		
 		stuff = level2.getTilesWithin(0,0,30,30, {isNotEmpty: true});
 		for(let i = 0; i < stuff.length; i++){
-			stuff[i].setCollisionCallback(death, player);
+			//stuff[i].setCollisionCallback(death, player);
+			this.matterCollision.addOnCollideStart({objectA: player, objectB: stuff[i], callback: death});
 		}
 		
-		this.matter.world.convertTilemapLayer(level);
-		this.matter.world.convertTilemapLayer(level2);
+		
 		
 		pew = this.sound.add('pew');
 		boom = this.sound.add('boom');
@@ -97,7 +101,7 @@ var config = {
     		repeat: -1
 		});
 		player.setDisplaySize(38, 38);
-		
+		this.matter.world.createDebugGraphic();
     }
 	
 	//-1 is inverted, 0 is none, 1 is normal
@@ -127,7 +131,7 @@ var config = {
 		{
     		if(xGrav == 0)//So you don't do stuff when gravity is wonky
 			{
-				player.setVelocityX(player.body.velocity.x + (Math.abs(yGrav) * -8));
+				player.setVelocityX(player.body.velocity.x + (Math.abs(yGrav) * -.5));
     			player.anims.play('left', true);
 				
 				//So animations sinc up when upside down
@@ -141,7 +145,7 @@ var config = {
 		{
 			if(xGrav == 0)//So you don't do stuff when gravity is wonky
 			{
-				player.setVelocityX(player.body.velocity.x + (Math.abs(yGrav) * 8));
+				player.setVelocityX(player.body.velocity.x + (Math.abs(yGrav) * .5));
     			player.anims.play('left', true);
 				
 				//So animations sinc up when upside down
@@ -155,7 +159,7 @@ var config = {
 		{
 			if(yGrav == 0)
 			{	
-				player.setVelocityY(player.body.velocity.y + (Math.abs(xGrav) * -8));//For x gravity
+				player.setVelocityY(player.body.velocity.y + (Math.abs(xGrav) * -.5));//For x gravity
 				player.anims.play('left', true);
 				
 				//So animations sinc up when upside down
@@ -169,7 +173,7 @@ var config = {
 		{
 			if(yGrav == 0)
 			{	
-				player.setVelocityY(player.body.velocity.y + (Math.abs(xGrav) * 8));//For x gravity
+				player.setVelocityY(player.body.velocity.y + (Math.abs(xGrav) * .5));//For x gravity
 				player.anims.play('left', true);
 				
 				//So animations sinc up when upside down
@@ -201,7 +205,8 @@ var config = {
 		
 		if(gravity.up.isDown)
 		{
-			player.setGravity(0, -800);
+			//player.setGravity(0, -800);
+			gravSwitch.setGravity(0, -1);
 			player.angle = 180;
 			
 			yGrav = -1;
@@ -210,7 +215,7 @@ var config = {
 		}
 		else if(gravity.down.isDown)
 		{
-			player.setGravity(0,0);
+			gravSwitch.setGravity(0,1);
 			player.angle = 0;
 			
 			yGrav = 1;
@@ -219,7 +224,7 @@ var config = {
 		}
 		else if(gravity.right.isDown)
 		{
-			player.setGravity(400,-400);
+			gravSwitch.setGravity(1,0);
 			player.angle = 270;
 			
 			yGrav = 0;
@@ -228,7 +233,7 @@ var config = {
 		}
 		else if(gravity.left.isDown)
 		{
-			player.setGravity(-400,-400);
+			gravSwitch.setGravity(-1,0);
 			player.angle = 90;
 			
 			yGrav = 0;
