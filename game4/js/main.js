@@ -12,6 +12,15 @@ var config = {
                 gravity: { y: 400 }
             }
         },
+		 plugins: {
+    		scene: [
+     		{
+        		plugin: PhaserMatterCollisionPlugin, // The plugin class
+        		key: "matterCollision", // Where to store in Scene.Systems, e.g. scene.sys.matterCollision
+        		mapping: "matterCollision" // Where to store in the Scene, e.g. scene.matterCollision
+      		}
+    	]
+  },
         scene: {
             preload: preload,
             create: create,
@@ -47,22 +56,20 @@ var config = {
 		level.setCollisionByProperty({collision: true});
 		level2.setCollisionByProperty({death: true});
 		
-		this.matter.world.convertTilemapLayer(level2);
 		
-		playerController = {
-			matterSprite: this.matter.add.sprite(500, 560, 'actor')
-			
-		};
-		player.body.maxVelocity.set(300);
+		player = this.matter.add.sprite(500, 560, 'actor');
+		//player.body.maxVelocity.set(300);
 		
-		this.physics.add.collider(player, level);
-		this.physics.add.collider(player, level2);
+		//this.matter.add.collider(player, level);
+		//this.matter.add.collider(player, level2);
+		this.matterCollision.addOnCollide({objectA: player, objectB: level});
+		this.matterCollision.addOnCollide({objectA: player, objectB: level2});
 		
 		
 		this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
 		this.cameras.main.startFollow(player);
 
-		player.setCollideWorldBounds(false);
+		//player.setCollideWorldBounds(false);
 		
 		
 		stuff = level2.getTilesWithin(0,0,30,30, {isNotEmpty: true});
@@ -70,6 +77,8 @@ var config = {
 			stuff[i].setCollisionCallback(death, player);
 		}
 		
+		this.matter.world.convertTilemapLayer(level);
+		this.matter.world.convertTilemapLayer(level2);
 		
 		pew = this.sound.add('pew');
 		boom = this.sound.add('boom');
