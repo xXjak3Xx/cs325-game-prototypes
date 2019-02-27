@@ -35,6 +35,7 @@ var config = {
         //this.load.image('sky', 'http://labs.phaser.io/assets/skies/space3.png');
 		//this.load.image('test', '../assets/red.png');
 		this.load.image('tiles', 'assets/tiles.png');
+		this.load.image('move', 'assets/movingfloor.png');
 		this.load.tilemapTiledJSON('map', 'assets/map2.json');
 		
 		//https://opengameart.org/content/game-character sprite sheet location
@@ -50,14 +51,23 @@ var config = {
     function create ()
     {	
 		map = this.make.tilemap({key: 'map', tileWidth: 40, tileHeight: 40});
-		tileset = map.addTilesetImage('FullSet', 'tiles');
+		let tileset = map.addTilesetImage('FullSet', 'tiles');
+		let moving_tileset = map.addTilesetImage('moving', 'move');
 		level = map.createStaticLayer('Tile Layer 1', tileset, 0, 0);
 		level2 = map.createStaticLayer('Tile Layer 2', tileset, 0, 0);
+		//levelm = map.createDynamicLayer('moving_layer', moving_tileset, 0, 0);
 		level.setCollisionByProperty({collision: true});
 		level2.setCollisionByProperty({death: true});
+		//levelm.setCollisionByProperty({collides: true});
+		
+		levelm = map.getObjectLayer("moving_layer").objects.forEach(movingObject => {
+			const { x, y, width, height } = movingObject;
+			this.matter.add.image(x + width/2, y - height/2, 'move').setBody({shape:'rectangle'});
+		});
 		
 		this.matter.world.convertTilemapLayer(level);
 		this.matter.world.convertTilemapLayer(level2);
+		//this.matter.world.convertTilemapLayer(levelm);
 		
 		
 		player = this.matter.add.sprite(500, 560, 'actor', '1f62c',{shape: 'circle'});

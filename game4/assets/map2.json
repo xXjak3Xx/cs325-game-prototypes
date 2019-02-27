@@ -23,8 +23,30 @@
          "width":30,
          "x":0,
          "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "name":"moving_layer",
+         "objects":[
+                {
+                 "gid":6,
+                 "height":40,
+                 "id":7,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":80,
+                 "x":676,
+                 "y":716
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
         }],
- "nextobjectid":6,
+ "nextobjectid":9,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"2017.07.26",
@@ -140,19 +162,19 @@
                                      "y":0
                                     }, 
                                     {
-                                     "x":20.3333333333333,
-                                     "y":-39.6666666666667
+                                     "x":20.3333,
+                                     "y":-39.6667
                                     }, 
                                     {
                                      "x":40,
-                                     "y":0.333333333333336
+                                     "y":0.333333
                                     }],
                              "rotation":0,
                              "type":"",
                              "visible":true,
                              "width":0,
-                             "x":0.333333333333333,
-                             "y":39.6666666666667
+                             "x":0.333333,
+                             "y":39.6667
                             }],
                      "opacity":1,
                      "properties":
@@ -192,15 +214,15 @@
                                      "y":40
                                     }, 
                                     {
-                                     "x":39.6666666666667,
-                                     "y":-0.333333333333333
+                                     "x":39.6667,
+                                     "y":-0.333333
                                     }],
                              "rotation":0,
                              "type":"",
                              "visible":true,
                              "width":0,
-                             "x":0.333333333333333,
-                             "y":0.666666666666667
+                             "x":0.333333,
+                             "y":0.666667
                             }],
                      "opacity":1,
                      "properties":
@@ -237,18 +259,18 @@
                                     }, 
                                     {
                                      "x":-40,
-                                     "y":19.6666666666667
+                                     "y":19.6667
                                     }, 
                                     {
                                      "x":0,
-                                     "y":40.3333333333333
+                                     "y":40.3333
                                     }],
                              "rotation":0,
                              "type":"",
                              "visible":true,
                              "width":0,
-                             "x":40.3333333333333,
-                             "y":0.666666666666667
+                             "x":40.3333,
+                             "y":0.666667
                             }],
                      "opacity":1,
                      "properties":
@@ -285,18 +307,18 @@
                                     }, 
                                     {
                                      "x":40,
-                                     "y":19.3333333333333
+                                     "y":19.3333
                                     }, 
                                     {
                                      "x":0,
-                                     "y":39.6666666666667
+                                     "y":39.6667
                                     }],
                              "rotation":0,
                              "type":"",
                              "visible":true,
                              "width":0,
                              "x":0,
-                             "y":0.666666666666667
+                             "y":0.666667
                             }],
                      "opacity":1,
                      "properties":
@@ -317,6 +339,33 @@
                 }
             },
          "tilewidth":40
+        }, 
+        {
+         "columns":1,
+         "firstgid":6,
+         "image":"movingfloor.png",
+         "imageheight":40,
+         "imagewidth":80,
+         "margin":0,
+         "name":"moving",
+         "spacing":0,
+         "tilecount":1,
+         "tileheight":40,
+         "tileproperties":
+            {
+             "0":
+                {
+                 "collides":true
+                }
+            },
+         "tilepropertytypes":
+            {
+             "0":
+                {
+                 "collides":"bool"
+                }
+            },
+         "tilewidth":80
         }],
  "tilewidth":40,
  "type":"map",
