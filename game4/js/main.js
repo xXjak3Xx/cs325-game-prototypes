@@ -7,7 +7,7 @@ var config = {
         width: 800,
         height: 600,
         physics: {
-            default: 'arcade',
+            default: 'matter',
             arcade: {
                 gravity: { y: 400 }
             }
@@ -43,18 +43,32 @@ var config = {
 		map = this.make.tilemap({key: 'map', tileWidth: 40, tileHeight: 40});
 		tileset = map.addTilesetImage('tileset2', 'tiles');
 		level = map.createStaticLayer('Tile Layer 1', tileset, 0, 0);
+		level2 = map.createStaticLayer('Tile Layer 2', tileset, 0, 0);
 		level.setCollisionByProperty({collision: true});
+		level2.setCollisionByProperty({death: true});
 		
-		player = this.physics.add.sprite(500, 560, 'actor');
+		this.matter.world.convertTilemapLayer(level2);
+		
+		playerController = {
+			matterSprite: this.matter.add.sprite(500, 560, 'actor')
+			
+		};
 		player.body.maxVelocity.set(300);
 		
 		this.physics.add.collider(player, level);
+		this.physics.add.collider(player, level2);
 		
 		
 		this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
 		this.cameras.main.startFollow(player);
 
 		player.setCollideWorldBounds(false);
+		
+		
+		stuff = level2.getTilesWithin(0,0,30,30, {isNotEmpty: true});
+		for(let i = 0; i < stuff.length; i++){
+			stuff[i].setCollisionCallback(death, player);
+		}
 		
 		
 		pew = this.sound.add('pew');
@@ -86,8 +100,9 @@ var config = {
 		cursors = this.input.keyboard.addKeys({left:"A",right:"D",up:"W",down:"S"});
 		input();
 		var tile = level.getTileAtWorldXY(player.body.x, player.body.y);
-		if(tile != null)
-			death();
+		if(tile != null){
+		//	death();
+		}
 	}
 		
 	function death()
