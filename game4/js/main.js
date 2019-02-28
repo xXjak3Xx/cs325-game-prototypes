@@ -31,7 +31,7 @@ var config = {
     {
 		this.load.image('tiles', 'assets/tiles.png');
 		this.load.image('move', 'assets/movingfloor.png');
-		this.load.tilemapTiledJSON('map', 'assets/map2.json');
+		this.load.tilemapTiledJSON('map', 'assets/bigmap.json');
 		
 		//https://opengameart.org/content/game-character sprite sheet location
 		this.load.spritesheet('actor', 'assets/BlobCharacter/Spritesheet/character_walk.png', {frameWidth: 56, frameHeight: 59});
@@ -48,14 +48,14 @@ var config = {
 		map = this.make.tilemap({key: 'map', tileWidth: 40, tileHeight: 40});
 		let tileset = map.addTilesetImage('FullSet', 'tiles');
 		let moving_tileset = map.addTilesetImage('moving', 'move');
-		level = map.createStaticLayer('Tile Layer 1', tileset, 0, 0);
-		level2 = map.createStaticLayer('Tile Layer 2', tileset, 0, 0);
+		level = map.createStaticLayer('floor', tileset, 0, 0);
+		level2 = map.createStaticLayer('spikes', tileset, 0, 0);
 		level.setCollisionByProperty({collision: true});
 		level2.setCollisionByProperty({death: true});
 		
 		levelm = map.getObjectLayer("moving_layer").objects.forEach(movingObject => {
 			const { x, y, width, height, rotation} = movingObject;
-			this.matter.add.image(x + width/2, y - height/2, 'move').setAngle(rotation).setFixedRotation().setFriction(0);
+			this.matter.add.image(x + width/2, y - height/2, 'move').setAngle(rotation).setFixedRotation().setFriction(0, 0, 0);
 		});
 		
 		this.matter.world.convertTilemapLayer(level);
@@ -63,7 +63,7 @@ var config = {
 		//this.matter.world.convertTilemapLayer(levelm);
 		
 		
-		player = this.matter.add.sprite(500, 560, 'actor', '',{shape: 'circle', friction:0});
+		player = this.matter.add.sprite(246*40, 286*40, 'actor', '',{shape: 'circle', friction:0});
 		gravSwitch = this.matter.world;
 
 		
@@ -71,7 +71,7 @@ var config = {
 		this.cameras.main.startFollow(player);
 
 		
-		stuff = level2.getTilesWithin(0,0,30,30, {isNotEmpty: true});
+		stuff = level2.getTilesWithin(0,0,500,500, {isNotEmpty: true});
 		for(let i = 0; i < stuff.length; i++){
 			this.matterCollision.addOnCollideStart({objectA: player, objectB: stuff[i], callback: death});
 		}
@@ -199,7 +199,7 @@ var config = {
 		if(gravity.up.isDown)
 		{
 			//player.setGravity(0, -800);
-			gravSwitch.setGravity(0, -1);
+			gravSwitch.setGravity(0, -1.5);
 			player.angle = 180;
 			
 			yGrav = -1;
@@ -208,7 +208,7 @@ var config = {
 		}
 		else if(gravity.down.isDown)
 		{
-			gravSwitch.setGravity(0,1);
+			gravSwitch.setGravity(0,1.5);
 			player.angle = 0;
 			
 			yGrav = 1;
@@ -217,7 +217,7 @@ var config = {
 		}
 		else if(gravity.right.isDown)
 		{
-			gravSwitch.setGravity(1,0);
+			gravSwitch.setGravity(1.5,0);
 			player.angle = 270;
 			
 			yGrav = 0;
@@ -226,7 +226,7 @@ var config = {
 		}
 		else if(gravity.left.isDown)
 		{
-			gravSwitch.setGravity(-1,0);
+			gravSwitch.setGravity(-1.5,0);
 			player.angle = 90;
 			
 			yGrav = 0;
