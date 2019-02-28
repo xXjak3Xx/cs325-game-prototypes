@@ -39,12 +39,17 @@ var config = {
 		//http://soundbible.com/1949-Pew-Pew.html
 		this.load.audio('pew', 'assets/pew.wav');
 		
+		//https://opengameart.org/content/sci-fi-background
+		this.load.image('background', 'assets/sci_fi_bg1.jpg');
+		
 		//http://soundbible.com/1469-Depth-Charge-Short.html
 		this.load.audio('boom', 'assets/boom.wav');
     }
 
     function create ()
     {	
+		//bg = this.add.image(152*40, 256*40, 'background');
+		bg = this.add.tileSprite(0, 0, 800, 600, 'background');
 		map = this.make.tilemap({key: 'map', tileWidth: 40, tileHeight: 40});
 		let tileset = map.addTilesetImage('FullSet', 'tiles');
 		let moving_tileset = map.addTilesetImage('moving', 'move');
@@ -57,6 +62,8 @@ var config = {
 			const { x, y, width, height, rotation} = movingObject;
 			this.matter.add.image(x + width/2, y - height/2, 'move', '', {restitution: .4}).setAngle(rotation).setFixedRotation().setFriction(0, 0, 0);
 		});
+		
+		
 		
 		this.matter.world.convertTilemapLayer(level);
 		this.matter.world.convertTilemapLayer(level2);
@@ -106,6 +113,7 @@ var config = {
 	var alive = true;
 	function update()
 	{
+		bg.setPosition(player.x, player.y);
 		gravity = this.input.keyboard.createCursorKeys();
 		cursors = this.input.keyboard.addKeys({left:"A",right:"D",up:"W",down:"S"});
 		if(alive)
@@ -117,8 +125,13 @@ var config = {
 	
 	function death()
 	{
-		boom.play();
+		if(alive)
+			boom.play();
+		
 		player.setVisible(false);
+		gravSwitch.setGravity(0,0);
+		player.setVelocityX(0);
+		player.setVelocityY(0);
 		alive = false;
 	}
 		

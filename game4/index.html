@@ -28,18 +28,18 @@ body
 
 <ul>
 <li><strong>Originality:</strong>
-My game offers freedeom of movement via gravity manipulation, allowing players to move much more freely than most other 2d platformers.
+This game is an improvement on my origional gravity blob game, but with new level design and game mechanics.
 </li>
 
 <li><strong>Technical Merit:</strong>
-The most interseting part of my game is the way that the character can change the gravity to pull you up down left or right. Additionally the character sprite rotates with this change
-	and much like a cat always lands on his feet.
+This sequel adds on to the already exciting gravity manipulation mechanic with new and improved tech. The biggest complaint from the origional game was the misleading hitboxes on
+the spike. I fixed this by using the higher quality matter.js game engine and using this to create very precise triangular hitboxes for the spikes, which now have very precise
+hitboxes. Additionally this engine change allowed me to create a new object type for puzzles that changes gravity with the blob.
 </li>
 
 <li><strong>Prototype Postmortem:</strong>
-I learned a lot about javascript in general as this is one of my first experiences with the language, and I learned a lot about loading and rendering assets.
-The hardest part for me was loading in the map and tiles that I had created, and ironing out the the specific interaction data for each tile.
-Just kidding the hardest part was getting the stupid-ass github.io to work.
+Creating this game helped me learn a lot about hitboxes and collision checking. The hardest part of this process was learning how to use the matter.js engine, as it is
+very different from the standard engine, and there are very few resources for it.
 </li>
 
 <li><strong>Prototype Assets:</strong>
@@ -49,12 +49,13 @@ Some of the assets I used were made from scratch, such as the spikes and platfor
 	<li><a href="https://opengameart.org/content/game-character">Character Sprite</a></li>
 	<li> <a href="http://soundbible.com/1949-Pew-Pew.html">Pew Pew Sound</a></li>
 	<li> <a href="http://soundbible.com/1469-Depth-Charge-Short.html">Explosion sound</a></li>
+	<li> <a href="https://opengameart.org/content/sci-fi-background">Background Image</a></li>
 </ul>
 </li>
 
 <li><strong>Prototype Closest Other Game:</strong>
-While I thought it was an original idea at first, a quick google search shows that this is far from the first gravity manipulation-based game, with vvvvv being the most
-similar looking result. The code I wrote is all original, with the only notable help being in basic comprehension from the tutorial, and code from the api.
+The closest game to this one would be the origional Gravity Blob, as they share almost all of their basic game mechanics. I used an additional plugin for matter.js here
+https://github.com/mikewesthad/phaser-matter-collision-plugin
 </li>
 
 <li><strong>High Concept:</strong>
@@ -66,24 +67,23 @@ This is really just the story of a slimy little blob trying to overcome adversit
 </li>
 
 <li><strong>Mandated Variety:</strong>
-This is a platformer game that uses the WASD buttons to move the character, and the arrow bottons to change the direction of gravity. There is no randomness in this game.
+This is a platformer game that uses the WASD buttons to move the character, and the arrow bottons to change the direction of gravity. There is some amount of variety in the
+game where there are precise platforming sections, puzzle sections, and some fast paced speed sections.
 </li>
 
 <li><strong>Prototype Goal:</strong>
-The main intention of this prototype was to evaluate if the gravity manipulation gameplay mechanic, with all the sprite and animation transformations invlolved would
-be a viable core for future games. 
+The main intention of this prototype was to improve upon existing technology, and to learn more about creating large and interesting maps. 
 </li>
 
 <li><strong>Player Experience Goals:</strong>
-The player experience that I would like to impart would be an excitement over the creative movement options, and a desire for more.
+The player experience that I would like to impart would be an excitement over the creative movement options, and the desire to explore every corner of the maze.
 </li>
 
 <li><strong>Gameplay:</strong>
 There are only a few necessary controls for this game to run, but I feel that they interact smoothly together. In terms of direct character movement the only controls
 are left and right movement (initially A and D on the keyboard). You can controll gravity with the arrow keys, and you will fall in the direction that you press. If you turn 
 the gravity to the left or right, the A and D buttons will no longer do anything, as they will be replaced with the W and S buttons to control the character's movement.
-This is done to ensure that the gravity transitions are as seamless as possible. A future gameplay change that I have been considering would be to limit the number of
-times you can change the gravity in the air, as I feel that make the game more challenging.
+This is done to ensure that the gravity transitions are as seamless as possible.
 </li>
 
 <li><strong>Strategies:</strong>
@@ -93,9 +93,8 @@ players who try to think that way.
 </li>
 
 <li><strong>Story/Setting/Premise:</strong>
-This is an abstract game in which a small little slime ball (who just happens to control gravity) is in search of happiness. The game can be seen as a metaphor, 
-because no matter where the slime ball looks he's still seemingly trapped in a box, much like how people can feel trapped in their own lives. Despite the fact
-that the slime ball has the power to control gravity he still can't control his own fate, and as such has to find happiness wherever he can. Where will you find happiness?
+The player wakes up in the center of a maze and all they wish to do is escape. All you know is that for some reason you became a small slime ball, and gained the ability to
+manipulate gravity. Using this ability you must navigate through deadly spikes and mind-boggling puzzles in order to try and find the exit.
 </li>
 
 <li><strong>Target Audience:</strong>
@@ -103,8 +102,7 @@ My target audience is people who like cute little slime balls, and dislike the r
 </li>
 
 <li><strong>Play Time:</strong>
-Much like life my game offers limitless entertainment to those enlightened enough to find it. In terms of exploring the whole map though you could likely explore all of it within
-five to ten minutes.
+I would expect it to take the average player roughly 30-45 minutes to be able to successfully escape the maze.
 </li>
 
 </ul>
