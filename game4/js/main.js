@@ -94,7 +94,7 @@ var config = {
     		frameRate: 1,
     		repeat: -1
 		});
-		player.setDisplaySize(33, 33);
+		player.setDisplaySize(30, 30);
 		player.setFixedRotation();
 		this.matter.world.createDebugGraphic();
     }
