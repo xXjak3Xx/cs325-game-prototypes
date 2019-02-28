@@ -73,7 +73,7 @@ var config = {
 		
 		stuff = level2.getTilesWithin(0,0,500,500, {isNotEmpty: true});
 		for(let i = 0; i < stuff.length; i++){
-		//	this.matterCollision.addOnCollideStart({objectA: player, objectB: stuff[i], callback: death});
+			this.matterCollision.addOnCollideStart({objectA: player, objectB: stuff[i], callback: death});
 		}
 		
 		
@@ -96,7 +96,7 @@ var config = {
 		});
 		player.setDisplaySize(30, 30);
 		player.setFixedRotation();
-		this.matter.world.createDebugGraphic();
+		//this.matter.world.createDebugGraphic();
     }
 	
 	//-1 is inverted, 0 is none, 1 is normal
