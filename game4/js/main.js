@@ -102,20 +102,24 @@ var config = {
 	//-1 is inverted, 0 is none, 1 is normal
 	var xGrav = 0;
 	var yGrav = 1;
+	var canPew = true;
+	var alive = true;
 	function update()
 	{
 		gravity = this.input.keyboard.createCursorKeys();
 		cursors = this.input.keyboard.addKeys({left:"A",right:"D",up:"W",down:"S"});
-		input();
+		if(alive)
+			input();
 		if(player.body.velocityY > .000001)
 			player.setVelocityY(.000001);
 	}
-		
+	
+	
 	function death()
 	{
 		boom.play();
-		alert('you died');
-		location.reload();
+		player.setVisible(false);
+		alive = false;
 	}
 		
 	function input()
@@ -204,7 +208,10 @@ var config = {
 			
 			yGrav = -1;
 			xGrav = 0;
-			pew.play();
+			if(canPew){
+				canPew = false;
+				pew.play();
+			}
 		}
 		else if(gravity.down.isDown)
 		{
@@ -213,7 +220,10 @@ var config = {
 			
 			yGrav = 1;
 			xGrav = 0;
-			pew.play();
+			if(canPew){
+				canPew = false;
+				pew.play();
+			}
 		}
 		else if(gravity.right.isDown)
 		{
@@ -222,7 +232,10 @@ var config = {
 			
 			yGrav = 0;
 			xGrav = -1;
-			pew.play();
+			if(canPew){
+				canPew = false;
+				pew.play();
+			}
 		}
 		else if(gravity.left.isDown)
 		{
@@ -231,6 +244,11 @@ var config = {
 			
 			yGrav = 0;
 			xGrav = 1;
-			pew.play();
+			if(canPew){
+				canPew = false;
+				pew.play();
+			}
 		}
+		else
+			canPew = true;
 	}}
