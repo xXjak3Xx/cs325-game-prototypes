@@ -55,7 +55,7 @@ var config = {
 		
 		levelm = map.getObjectLayer("moving_layer").objects.forEach(movingObject => {
 			const { x, y, width, height, rotation} = movingObject;
-			this.matter.add.image(x + width/2, y - height/2, 'move').setAngle(rotation).setFixedRotation().setFriction(0, 0, 0);
+			this.matter.add.image(x + width/2, y - height/2, 'move', '', {restitution: .4}).setAngle(rotation).setFixedRotation().setFriction(0, 0, 0);
 		});
 		
 		this.matter.world.convertTilemapLayer(level);
@@ -63,7 +63,7 @@ var config = {
 		//this.matter.world.convertTilemapLayer(levelm);
 		
 		
-		player = this.matter.add.sprite(246*40, 286*40, 'actor', '',{shape: 'circle', friction:0});
+		player = this.matter.add.sprite(152*40, 256*40, 'actor', '',{shape: 'circle', friction:0});
 		gravSwitch = this.matter.world;
 
 		
@@ -94,7 +94,7 @@ var config = {
     		frameRate: 1,
     		repeat: -1
 		});
-		player.setDisplaySize(38, 38);
+		player.setDisplaySize(33, 33);
 		player.setFixedRotation();
 		this.matter.world.createDebugGraphic();
     }
