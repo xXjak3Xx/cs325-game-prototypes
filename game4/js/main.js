@@ -1,6 +1,3 @@
-
-
-
 window.onload = function() {
 var config = {
         type: Phaser.AUTO,
@@ -15,9 +12,9 @@ var config = {
 		 plugins: {
     		scene: [
      		{
-        		plugin: PhaserMatterCollisionPlugin, // The plugin class
-        		key: "matterCollision", // Where to store in Scene.Systems, e.g. scene.sys.matterCollision
-        		mapping: "matterCollision" // Where to store in the Scene, e.g. scene.matterCollision
+        		plugin: PhaserMatterCollisionPlugin,
+        		key: "matterCollision",
+        		mapping: "matterCollision" 
       		}
     	]
   },
@@ -32,8 +29,6 @@ var config = {
 
     function preload ()
     {
-        //this.load.image('sky', 'http://labs.phaser.io/assets/skies/space3.png');
-		//this.load.image('test', '../assets/red.png');
 		this.load.image('tiles', 'assets/tiles.png');
 		this.load.image('move', 'assets/movingfloor.png');
 		this.load.tilemapTiledJSON('map', 'assets/map2.json');
@@ -55,14 +50,12 @@ var config = {
 		let moving_tileset = map.addTilesetImage('moving', 'move');
 		level = map.createStaticLayer('Tile Layer 1', tileset, 0, 0);
 		level2 = map.createStaticLayer('Tile Layer 2', tileset, 0, 0);
-		//levelm = map.createDynamicLayer('moving_layer', moving_tileset, 0, 0);
 		level.setCollisionByProperty({collision: true});
 		level2.setCollisionByProperty({death: true});
-		//levelm.setCollisionByProperty({collides: true});
 		
 		levelm = map.getObjectLayer("moving_layer").objects.forEach(movingObject => {
 			const { x, y, width, height, rotation} = movingObject;
-			this.matter.add.image(x + width/2, y - height/2, 'move').setAngle(rotation).setFixedRotation().setFriction(0)/*.setBody({shape:'rectangle'})*/;
+			this.matter.add.image(x + width/2, y - height/2, 'move').setAngle(rotation).setFixedRotation().setFriction(0);
 		});
 		
 		this.matter.world.convertTilemapLayer(level);
@@ -72,23 +65,14 @@ var config = {
 		
 		player = this.matter.add.sprite(500, 560, 'actor', '',{shape: 'circle', friction:0});
 		gravSwitch = this.matter.world;
-		//player.body.maxVelocity.set(300);
-		
-		//this.matter.add.collider(player, level);
-		//this.matter.add.collider(player, level2);
-		//this.matterCollision.addOnCollideStart({objectA: player, callback: () => {console.log("work")}});
-		//this.matterCollision.addOnCollideStart({objectA: player, objectB: test, callback: death});
-		
+
 		
 		this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
 		this.cameras.main.startFollow(player);
 
-		//player.setCollideWorldBounds(false);
-		
 		
 		stuff = level2.getTilesWithin(0,0,30,30, {isNotEmpty: true});
 		for(let i = 0; i < stuff.length; i++){
-			//stuff[i].setCollisionCallback(death, player);
 			this.matterCollision.addOnCollideStart({objectA: player, objectB: stuff[i], callback: death});
 		}
 		
@@ -125,10 +109,6 @@ var config = {
 		input();
 		if(player.body.velocityY > .000001)
 			player.setVelocityY(.000001);
-		var tile = level.getTileAtWorldXY(player.body.x, player.body.y);
-		if(tile != null){
-		//	death();
-		}
 	}
 		
 	function death()
