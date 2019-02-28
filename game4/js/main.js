@@ -61,8 +61,8 @@ var config = {
 		//levelm.setCollisionByProperty({collides: true});
 		
 		levelm = map.getObjectLayer("moving_layer").objects.forEach(movingObject => {
-			const { x, y, width, height } = movingObject;
-			this.matter.add.image(x + width/2, y - height/2, 'move').setBody({shape:'rectangle'});
+			const { x, y, width, height, rotation} = movingObject;
+			this.matter.add.image(x + width/2, y - height/2, 'move').setAngle(rotation).setFixedRotation().setFriction(0)/*.setBody({shape:'rectangle'})*/;
 		});
 		
 		this.matter.world.convertTilemapLayer(level);
@@ -70,7 +70,7 @@ var config = {
 		//this.matter.world.convertTilemapLayer(levelm);
 		
 		
-		player = this.matter.add.sprite(500, 560, 'actor', '1f62c',{shape: 'circle'});
+		player = this.matter.add.sprite(500, 560, 'actor', '',{shape: 'circle', friction:0});
 		gravSwitch = this.matter.world;
 		//player.body.maxVelocity.set(300);
 		
@@ -111,6 +111,7 @@ var config = {
     		repeat: -1
 		});
 		player.setDisplaySize(38, 38);
+		player.setFixedRotation();
 		this.matter.world.createDebugGraphic();
     }
 	
@@ -122,6 +123,8 @@ var config = {
 		gravity = this.input.keyboard.createCursorKeys();
 		cursors = this.input.keyboard.addKeys({left:"A",right:"D",up:"W",down:"S"});
 		input();
+		if(player.body.velocityY > .000001)
+			player.setVelocityY(.000001);
 		var tile = level.getTileAtWorldXY(player.body.x, player.body.y);
 		if(tile != null){
 		//	death();
@@ -141,7 +144,7 @@ var config = {
 		{
     		if(xGrav == 0)//So you don't do stuff when gravity is wonky
 			{
-				player.setVelocityX(player.body.velocity.x + (Math.abs(yGrav) * -.5));
+				player.setVelocityX(player.body.velocity.x + (Math.abs(yGrav) * -.2));
     			player.anims.play('left', true);
 				
 				//So animations sinc up when upside down
@@ -155,7 +158,7 @@ var config = {
 		{
 			if(xGrav == 0)//So you don't do stuff when gravity is wonky
 			{
-				player.setVelocityX(player.body.velocity.x + (Math.abs(yGrav) * .5));
+				player.setVelocityX(player.body.velocity.x + (Math.abs(yGrav) * .2));
     			player.anims.play('left', true);
 				
 				//So animations sinc up when upside down
@@ -169,7 +172,7 @@ var config = {
 		{
 			if(yGrav == 0)
 			{	
-				player.setVelocityY(player.body.velocity.y + (Math.abs(xGrav) * -.5));//For x gravity
+				player.setVelocityY(player.body.velocity.y + (Math.abs(xGrav) * -.2));//For x gravity
 				player.anims.play('left', true);
 				
 				//So animations sinc up when upside down
@@ -183,7 +186,7 @@ var config = {
 		{
 			if(yGrav == 0)
 			{	
-				player.setVelocityY(player.body.velocity.y + (Math.abs(xGrav) * .5));//For x gravity
+				player.setVelocityY(player.body.velocity.y + (Math.abs(xGrav) * .2));//For x gravity
 				player.anims.play('left', true);
 				
 				//So animations sinc up when upside down
