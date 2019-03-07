@@ -131,6 +131,14 @@ var config = {
 			"has freckle implants? What a slattern.\" This was a complete waste of time.";
 	}
 	
+	function dealer(){
+		return "It's surprisingly easy to convince Robert's drug dealer, Sloan to meet up with you. You: \"Sloan, I have hard evidence that you're selling illegal narcotics. " + 
+			"If you tell me everything that you know about Robert and his death I know I'll be able to convince the DA to reduce your sentance.\" Sloan: \"Lets say I know " +
+			"who killed Robert and I was willing to lead you to them and wear a wire and everything to guaranteee that Robert's killer is known to all.\" This is just the " +
+			"kind of breakthrough I was hoping for, so I hurridly aggree to his terms. Sloan \"I Killed Robert because he broke into my crib, stole all my tree, replced " +
+			"it with grass clippings, and snapchatted me while doing so. This guy was stupid, I couldn't just let him live at that point. So I shot him.\"";
+	}
+	
 	function friend(){
 		if(neighborCheck){
 			choices.push("Dealer");
@@ -203,6 +211,14 @@ var config = {
 				"has no memory of the night of the murder due to having allegedly been on a bender throughout the schoolweek. But the smoking gun for Jimmy was gun smoke...residue. " +
 				"During the week that he has no memory of residue tests show that Jimmy fired a gun more than once. Jimmy claims that he was probably target shooting, which is " + 
 				"one of his favorite hobbies, but what kind of friend doesn't know when their friend has died. At least in prison Jimmy finally met some people just like him.";
+		}
+		else if(ending == "Dealer"){
+			return "After the unfortunate events that unfolded with Robert had ended Sloan went on to live a long and happy life. Despite admitting to killing Robert in front " +
+				"of a jury of his peers, as well as several other people, Sloan was found innocent on alll charges. Sloan eventually retired from dealing drugs as a very rich " +
+				"man and opened a charity for malnourished children in impoverished countries. After three years of this the IRS investigated Sloan's charity and found that " + 
+				"as much as 75% of the money that had been raised by the organization had been embezzelled. Yet again Sloan pled guilty and admitted to all the crimes that " +
+				"he was being charged with, but was still found innocent. Because of this Sloan went back to selling drugs and killing people because he may literally be " +
+				"invincible";
 		}
 	}
     
