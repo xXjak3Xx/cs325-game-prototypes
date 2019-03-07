@@ -177,13 +177,41 @@ var config = {
 		text.setText(display);
 		return retArray;
 	}
+	
+	function finale(ending){
+		if(ending == "Roomate"){
+			return "You decide that the one who must have committed this heinous crime is Robert's roomate. Sean was taken away to prison that very day. Tears were streaming " +
+				"down his face and he swore to his girlfriend that when he got out he'd finally marry her. Sean died in a riot less then a week later. That was his punishement " + 
+				"for breaking the cardinal rule of bros before... girlfriends.";
+		}
+		else if(ending == "Neighbor"){
+			return "After much consideration you realize that the most suspicious person of all was Robert's neighbor herself. Did she really think that we would believe " +
+				"that someone is cabale of sleeping through gunshots being fired mere feet away from them?";
+		}
+		else if(ending == "RA"){
+			return "Ok lets be honest here. We know that Becky the RA didn't kill Robert. Because she was hosting a club meeting there are literally dozens of people " + 
+				"who can confirm her alibi. But this isn't about thinking Becky is guilty, it's just about not liking Becky. Once in prison Becky tries to create a " +
+				"bunch of new clubs to help herself and her fellow inmates pass the time more quickly. She fails and they make fun of her.";
+		}
+		else if(ending == "Girlfriend"){
+			return "\"Elise must have done it who else could it have been!\" sound no one ever. Seriously, this unlucky, if a bit wacky girl was only involved at all because " +
+				"she was stalked by the victim. But I geuss that's not what the jury thought because she ends up in jail anyway. I seriouly think the jury must have mistook " +
+				"Elise for someone else. At least Elise lived a long and happy life as the most respected and admired toilet hooch brewer in her entire pennitenntory.";
+		}
+		else if(ending == "Friend"){
+			return "Jimmy really is the most likely suspect for the murder. He knew Robert's schedule so well that he could easily plan for such a perfect time. He conveniently " +
+				"has no memory of the night of the murder due to having allegedly been on a bender throughout the schoolweek. But the smoking gun for Jimmy was gun smoke...residue. " +
+				"During the week that he has no memory of residue tests show that Jimmy fired a gun more than once. Jimmy claims that he was probably target shooting, which is " + 
+				"one of his favorite hobbies, but what kind of friend doesn't know when their friend has died. At least in prison Jimmy finally met some people just like him.";
+		}
+	}
     
     function update() {
 		cursors = this.input.keyboard.addKeys({select: "ENTER", up: "LEFT", down: "RIGHT"});
 		input();
     }
 	
-	
+	var accused = false;
 	var reading = true;
 	var release = true;
 	var str = true;
@@ -217,7 +245,11 @@ var config = {
 					
 					temp = menuChoice(false, false);
 					
-					if(temp == "Roomate"){
+					if(accused){
+						output = finale(temp);
+						reading = true;
+					}
+					else if(temp == "Roomate"){
 					   output = roomate();
 						reading = true;
 					}
@@ -238,7 +270,9 @@ var config = {
 						reading = true;
 					}
 					else if(temp == "Accuse"){
+						accused = true;
 						choices.shift();
+						reading = true;
 					}
 				}
 			}
