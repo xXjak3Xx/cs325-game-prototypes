@@ -40,6 +40,8 @@ var config = {
 	var choice = 0;
 	
 	function menuChoice(up, down){
+		
+		
 		if(up)
 			choice ++;
 		if(down)
@@ -79,6 +81,8 @@ var config = {
 		
 		text.setText(tempText);
 		menu.setText(tempMenu);
+		if(!up && !down)
+			return choices[choice];
 	}
 	
 	function start(){
@@ -86,6 +90,18 @@ var config = {
 			"dorm room late in the night, and you've been tasked with investigating and solving this horrible crime. The victim appears to have been killed by a single gunshot wound " +
 			"to the chest. Additionally you find the victim's phone, but unfortunately it is passcode protected so no information can be gleaned from it. Who do you wish to investigate?";
 	}
+	
+	var friendCheck = false;
+	function roomate(){
+		friendCheck = true;
+		return "You decide that it's important to learn whatever you can from the victim's roomate, Sean. You: \"Where were you on the night of Robert's murder?\" " +
+			"Sean: \"I was sleeping over at my girlfriend's house, like I do most nights. I rarely spend the nights here.\" You: \"What did Robert usually do with his spare time? " +
+			"Can you think of any reason that someone may have wanted to hurt him?\" Sean: \"I'm sorry officer but I really don't know too much about him. Several people " +
+			"in the dorm found him irritating, but I can't think of anyone who would want to kill him. You should talk to his friend on the other floor. They were " +
+			"basically joined at the hip.\" You: \"Do you know the name of this friend of his?\" Sean: \"Sorry but no idea.\"";
+	}
+	
+
 	
 	//value is array of words to output
 	function textOutput(value){
@@ -114,6 +130,7 @@ var config = {
 	var str = true;
 	var output = start();
 	function input() {
+		let temp;
 		if(cursors.select.isDown){
 			if(release){
 				if(reading){
@@ -122,15 +139,22 @@ var config = {
 						str = false;
 					}
 					
+					menu.setText("");
 					output = textOutput(output);
 					release = false;
 					if(output == null){
 						reading = false;
 						str = true;
+						temp = menuChoice(true, true);
 					}
 				}
 				else{
-					menuChoice(false, false);
+					temp = menuChoice(false, false);
+					
+					if(temp == "Roomate"){
+					   output = roomate();
+						reading = true;
+					}
 				}
 			}
 		}
