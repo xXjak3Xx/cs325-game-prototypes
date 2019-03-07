@@ -131,8 +131,24 @@ var config = {
 			"has freckle implants? What a slattern.\" This was a complete waste of time.";
 	}
 	
+	function friend(){
+		if(neighborCheck){
+			choices.push("Dealer");
+		}
+		let temp = "You finally manage to track down someone who actually knows something about Robert's life, his friend Jimmy. You \"Where were you on the night of Robert's murder?\" " +
+			"Jimmy: \"What do you mean?\" You: \"What do you mean what do I mean? Where were you when Robert died?\" Jimmy: \"Robert's dead?\" You: \"He's your best friend isn't he? " +
+			"How were you not aware of this\" Jimmy: \"I don't know how, what day is it?\" You: \"...Friday.\" Jimmy: \"Well that explains it I've been on bender for the last four or " +
+			"five days.\" What admirable studiousness. You: \"So where were you?\" Jimmy: \"I don't know. I don't remember anything from this past week. I mighta done molly.\" You: " +
+			"\"You know that I'm a police officer right?\" Jimmy: \"Ohhh so that's why you're wearing the uniform.\" What an idiot. ";
+		if(neighborCheck){
+			temp += "You: \"Do you by any chance know the passcode for getting into Robert's phone?\" Jimmy: \"Oh yeah it's locked with my tongue print.\" Upon inspecting the " +
+				"recent messages you see what appears to be messages from a drug dealer.";	
+		}
+		return temp;
+	}
+	
 	var friendCheck = false;
-	var phoneCheck = false;
+	//var phoneCheck = false;
 	var neighborCheck = false;
 	function roomate(){
 		friendCheck = true;
@@ -216,6 +232,13 @@ var config = {
 					else if(temp == "Girlfriend"){
 						output = girlfriend();
 						reading = true;
+					}
+					else if(temp == "Friend"){
+						output = friend();
+						reading = true;
+					}
+					else if(temp == "Accuse"){
+						choices.shift();
 					}
 				}
 			}
