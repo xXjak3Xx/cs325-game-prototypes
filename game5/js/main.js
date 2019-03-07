@@ -19,9 +19,11 @@ var config = {
 	var game = new Phaser.Game(config);
     
     function preload() {
-        // Load an image and call it 'logo'.
+        // https://opengameart.org/content/police-2d-sprite
         this.load.image( 'police', 'assets/0.png' );
 		this.load.image('textbox', 'assets/box.png');
+		
+		//https://opengameart.org/content/sara-2-0
     }
     
     
@@ -30,15 +32,21 @@ var config = {
 		player.setDisplaySize(100, 200);
 		textbox = this.add.image(400, 525, 'textbox');
 		textbox.setDisplaySize(850, 150);
-		text = this.add.text(textbox.getCenter().x, textbox.getCenter().y, "jake likes to sometimes eat cake yaa and smoke \nsuh \nsuh \nsuh", {fontSize: 25}).setOrigin(.5);
+		text = this.add.text(textbox.getCenter().x, textbox.getCenter().y, "I Am the Video Game Police", {fontSize: 25}).setOrigin(.5);
     }
+	
+	function start(){
+		return "You're called to Gregory Manson Unniversity to investigate a crime scene in the freshman dorm building. A student named Robert Cook was found murdered in his " +
+			"dorm room late in the night, and you've been tasked with investigating"
+	}
 	
 	//value is array of words to output
 	function textOutput(value){
 		let retArray, display = "";
 		if(value.length > 24)
 			retArray = value.slice(24);
-		retArray = null;
+		else
+			retArray = null;
 		
 		for(let i = 0; i < value.length && i < 24; i++){
 			display += value[i] + " ";
@@ -51,18 +59,33 @@ var config = {
     
     function update() {
 		cursors = this.input.keyboard.addKeys({select: "ENTER"});
-		if(cursors.select.isDown)
-			textOutput("Since more code is always better, I isolated this particular example in the Bubble-sample.zip file attached".split(" "));
+		input();
     }
 	
 	var reading = true;
 	var release = true;
-	var output = "";
+	var str = true;
+	var output = start();
 	function input() {
-		if(cursors.select.isDown && release){
-			if(reading){
-				
+		if(cursors.select.isDown){
+			if(release){
+				if(reading){
+					if(str){
+						output = output.split(" ");
+						str = false;
+					}
+					
+					output = textOutput(output);
+					release = false;
+					if(output == null){
+						reading = false;
+						str = true;
+					}
+				}
 			}
+		}
+		else{
+			release = true;
 		}
 	}
 };
