@@ -23,7 +23,7 @@ var config = {
         this.load.image( 'police', 'assets/0.png' );
 		this.load.image('textbox', 'assets/box.png');
 		
-		//https://opengameart.org/content/sara-2-0
+
     }
     
     
@@ -34,6 +34,7 @@ var config = {
 		textbox.setDisplaySize(850, 150);
 		text = this.add.text(textbox.getCenter().x, textbox.getCenter().y, "I Am the Video Game Police \n ", {fontSize: 25}).setOrigin(.5);
 		menu = this.add.text(textbox.getCenter().x, textbox.getCenter().y, "", {fontSize: 25, color:"RED"}).setOrigin(.5);
+	
     }
 	
 	var choices = ["Accuse", "Roomate", "RA", "Neighbor"];
