@@ -20,21 +20,49 @@ var config = {
     
     function preload() {
         // Load an image and call it 'logo'.
-        game.load.image( 'police', 'assets/0.png' );
+        this.load.image( 'police', 'assets/0.png' );
+		this.load.image('textbox', 'assets/box.png');
     }
     
-    var bouncy;
     
     function create() {
         player = this.physics.add.sprite(100, 400, 'police');
+		player.setDisplaySize(100, 200);
+		textbox = this.add.image(400, 525, 'textbox');
+		textbox.setDisplaySize(850, 150);
+		text = this.add.text(textbox.getCenter().x, textbox.getCenter().y, "jake likes to sometimes eat cake yaa and smoke \nsuh \nsuh \nsuh", {fontSize: 25}).setOrigin(.5);
     }
+	
+	//value is array of words to output
+	function textOutput(value){
+		let retArray, display = "";
+		if(value.length > 24)
+			retArray = value.slice(24);
+		retArray = null;
+		
+		for(let i = 0; i < value.length && i < 24; i++){
+			display += value[i] + " ";
+			if((i+1) % 6 == 0)
+				display += "\n";
+		}
+		text.setText(display);
+		return retArray;
+	}
     
     function update() {
-        // Accelerate the 'logo' sprite towards the cursor,
-        // accelerating at 500 pixels/second and moving no faster than 500 pixels/second
-        // in X or Y.
-        // This function returns the rotation angle that makes it visually match its
-        // new trajectory.
-        bouncy.rotation = game.physics.arcade.accelerateToPointer( bouncy, game.input.activePointer, 500, 500, 500 );
+		cursors = this.input.keyboard.addKeys({select: "ENTER"});
+		if(cursors.select.isDown)
+			textOutput("Since more code is always better, I isolated this particular example in the Bubble-sample.zip file attached".split(" "));
     }
+	
+	var reading = true;
+	var release = true;
+	var output = "";
+	function input() {
+		if(cursors.select.isDown && release){
+			if(reading){
+				
+			}
+		}
+	}
 };
