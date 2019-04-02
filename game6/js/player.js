@@ -20,6 +20,12 @@ class Player(){
 			this.die();
 	}
 	
+	heal(health){
+		this.hp += health;
+		if(this.hp >= 100)
+			this.hp = 100;
+	}
+	
 	die(){
 		//TODO
 	}

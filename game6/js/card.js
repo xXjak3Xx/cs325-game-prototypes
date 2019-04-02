@@ -3,7 +3,7 @@
 function rollDice(numberOfDice){
 	let retval = 0;
 	for(let i = 0; i < numberOfDice; i++){
-		retval += Math.random * 6 + 1;
+		retval += Math.floor(Math.random() * 6 + 1);
 	}
 	return retval;
 }
@@ -35,6 +35,7 @@ class Card{
 	}
 	
 	attack(me, opponent){
-		
+		opponent.takeDamage(this.damage);
+		me.heal(this.healing);
 	}
 }
