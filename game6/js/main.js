@@ -26,8 +26,9 @@ var config = {
     var bouncy;
     
     function create() {
-		player1 = new Player('Player 1', new Flick(), 100);
+		player1 = new Player('Player 1', new TwoTries(), 100);
 		player2 = new Player('Player 2', new Flick(), 100);
+		turn = 1;
         
     }
     
