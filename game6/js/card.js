@@ -13,13 +13,16 @@ function flipCoin(){
 	return Math.random * 2;
 }
 
-class Card{
+class Card {
 	
 	constructor(name, numbers, damage, healing){
 		this.name = name;
 		this.numbers = numbers;
 		this.damage = damage;
 		this.healing = healing;
+		this.description = null;
+		this.effect = null;
+		this.flavorText = null;
 	}
 	
 	setDescription(description){
@@ -37,5 +40,11 @@ class Card{
 	attack(me, opponent){
 		opponent.takeDamage(this.damage);
 		me.heal(this.healing);
+	}
+}
+
+class Flick extends Card {
+	constructor(){
+		super('Flick', [2,3,4,5,6,7,8,9,10,11,12], 4, 0);
 	}
 }

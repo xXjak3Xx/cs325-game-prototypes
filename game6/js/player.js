@@ -1,6 +1,6 @@
 //Jake Crawford
 
-class Player(){
+class Player {
 	
 	constructor(name, cards, hp){
 		this.name = name;
@@ -28,5 +28,6 @@ class Player(){
 	
 	die(){
 		//TODO
+		;
 	}
 }

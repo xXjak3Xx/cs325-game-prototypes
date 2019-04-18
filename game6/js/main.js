@@ -26,10 +26,14 @@ var config = {
     var bouncy;
     
     function create() {
+		player1 = new Player('Player 1', new Flick(), 100);
+		player2 = new Player('Player 2', new Flick(), 100);
         
     }
     
     function update() {
         //console.log(rollDice(2));
+		player1.cards.attack(player1, player2);
+		console.log(player2.hp);
     }
 };
