@@ -38,8 +38,12 @@ class Card {
 	}
 	
 	attack(me, opponent){
-		opponent.takeDamage(this.damage);
-		me.heal(this.healing);
+		let rolls = rollDice(2);
+		if(this.numbers.includes(rolls)){
+			let temp = opponent.takeDamage(this.damage);
+			me.heal(this.healing);
+			return temp;
+		}
 	}
 }
 
@@ -95,8 +99,9 @@ class Coin extends Card{
 			this.healing = 20;
 		}
 		
-		opponent.takeDamage(this.damage);
+		let temp = opponent.takeDamage(this.damage);
 		me.heal(this.healing);
+		return temp;
 	}
 }
 
@@ -109,8 +114,9 @@ class SixShooter extends Card{
 	attack(me, opponent){
 		let die = rollDice(2);
 		this.damage = die * 6;
-		opponent.takeDamage(this.damage);
+		let temp = opponent.takeDamage(this.damage);
 		me.heal(this.healing);
+		return temp;
 	}
 }
 
@@ -131,7 +137,8 @@ class TwoTries extends Card{
 			bigger = die2;
 		this.damage = bigger;
 		
-		opponent.takeDamage(this.damage);
+		let temp = opponent.takeDamage(this.damage);
 		me.heal(this.healing);
+		return temp;
 	}
 }

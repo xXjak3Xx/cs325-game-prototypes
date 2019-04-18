@@ -16,8 +16,11 @@ class Player {
 	
 	takeDamage(damage){
 		this.hp -= damage;
-		if(this.hp <= 0)
+		if(this.hp <= 0){
 			this.die();
+			return -1;
+		}
+		return 0;
 	}
 	
 	heal(health){
