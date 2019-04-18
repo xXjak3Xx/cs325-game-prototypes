@@ -10,7 +10,7 @@ function rollDice(numberOfDice){
 
 //0 is heads 1 is tails
 function flipCoin(){
-	return Math.random * 2;
+	return Math.floor(Math.random() * 2);
 }
 
 class Card {
@@ -89,6 +89,8 @@ class Coin extends Card{
 	}
 	
 	attack(me, opponent){
+		let rolls = rollDice(2);
+		if(this.numbers.includes(rolls)){
 		let flip = flipCoin();
 		if(flip == 1){
 			this.damage = 20;
@@ -101,7 +103,7 @@ class Coin extends Card{
 		
 		let temp = opponent.takeDamage(this.damage);
 		me.heal(this.healing);
-		return temp;
+		return temp;}
 	}
 }
 
@@ -112,11 +114,13 @@ class SixShooter extends Card{
 	}
 	
 	attack(me, opponent){
+		let rolls = rollDice(2);
+		if(this.numbers.includes(rolls)){
 		let die = rollDice(2);
 		this.damage = die * 6;
 		let temp = opponent.takeDamage(this.damage);
 		me.heal(this.healing);
-		return temp;
+		return temp;}
 	}
 }
 
@@ -127,6 +131,8 @@ class TwoTries extends Card{
 	}
 	
 	attack(me, opponent){
+		let rolls = rollDice(2);
+		if(this.numbers.includes(rolls)){
 		let bigger;
 		let die1 = rollDice(1);
 		let die2 = rollDice(1);
@@ -139,6 +145,6 @@ class TwoTries extends Card{
 		
 		let temp = opponent.takeDamage(this.damage);
 		me.heal(this.healing);
-		return temp;
+		return temp;}
 	}
 }

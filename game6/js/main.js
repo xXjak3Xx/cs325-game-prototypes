@@ -108,7 +108,7 @@ var config = {
 	}
     
     function update() {
-        //console.log(rollDice(2));
+        //console.log(flipCoin());
 		//player1.cards.attack(player1, player2);
 		//console.log(player2.hp);
 		
