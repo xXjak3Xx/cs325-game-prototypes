@@ -57,10 +57,60 @@ class LightBeer extends Card{
 	}
 }
 
+class Shotgun extends Card{
+	constructor(){
+		super('Shotgun', [3,4,5], 0, 15);
+		this.setDescription('Shotgun a beer to heal for 15 health.');
+	}
+}
+
 class Slap extends Card{
 	constructor(){
 		super('Slap', [3, 5, 7, 9, 11], 10, 0);
 		this.setDescription('Slap the opponent for 10 damage.');
+	}
+}
+
+class Crit extends Card{
+	constructor(){
+		super('Critical Hit', [12], 60, 0);
+		this.setDescription('A critical hit for 60 damage.');
+	}
+}
+
+class Coin extends Card{
+	constructor(){
+		super('Heads or Tails', [9,10,11,12], 0, 0);
+		this.setDescription('Flip a coin to tell if you heal or deal damage.');
+	}
+	
+	attack(me, opponent){
+		let flip = flipCoin();
+		if(flip == 1){
+			this.damage = 20;
+			this.healing = 0;
+		}
+		else{
+			this.damage = 0;
+			this.healing = 20;
+		}
+		
+		opponent.takeDamage(this.damage);
+		me.heal(this.healing);
+	}
+}
+
+class SixShooter extends Card{
+	constructor(){
+		super('Six Shooter', [6], 0, 0);
+		this.setDescription('Fires a six shooter for variable damage.');
+	}
+	
+	attack(me, opponent){
+		let die = rollDice(2);
+		this.damage = die * 6;
+		opponent.takeDamage(this.damage);
+		me.heal(this.healing);
 	}
 }
 
